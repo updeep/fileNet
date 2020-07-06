@@ -2,17 +2,17 @@
 
 ## package setup
 
-1. $: mvn clean compile package
-
-2. copy jar to new fileNet-v{currentDate}
-
-3. compress finished
+0. new dist-dir fileNet-{currentDate}
+1. copy fileNet-example to new dist-dir
+2. build: mvn clean package
+3. copy target/jar && copy libs to dist-dir
+4. edit app/config/server.properties
+compress finished
 
 
 ## directory name rule
 ```
-example: fileNet-v2020.0313
-explain: appName-v{currentDate}
+example: fileNet-20200202
 ```
 
 
@@ -26,15 +26,15 @@ explain: appName-v{currentDate}
 |	├─ libs/            | 外部引用资源（maven打包后生成的jar包）
 |	├─ logs/            | 日志文件夹
 |	├─ webapp/          | 页面静态资源，包含文件上传本地存储files文件夹
-|	├─ file-service.jar | 程序jar包
+|	├─ fileNet-boot.jar | 程序jar包
 
 
 ## open mode
 - Linux
 `
-sh bin/fileNet.sh
+sh bin/startup.sh
 `
 - Windows
 `
-double click on bin/fileNet.bat
+double click on bin/startup.bat
 `

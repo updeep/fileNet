@@ -4,7 +4,7 @@
 
 	<groupId>cc.devcp</groupId>
 	<artifactId>fileNet</artifactId>
-	<version>1.0-RELEASE</version>
+	<version>boot</version>
 	<packaging>jar</packaging>
 
 	<name>fileNet</name>

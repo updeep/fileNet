@@ -34,4 +34,4 @@ target/
 /libs/
 /logs/
 
-fileNet-v*
+distribution/fileNet-20200706/*
