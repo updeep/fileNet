@@ -1,0 +1,37 @@
+﻿# Package Files #
+*.war
+*.ear
+
+# Windows #
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS #
+.DS_Store
+
+# npm #
+node_modules/
+package-lock.json
+#dist/
+
+# IntelliJ IDEA #
+.idea
+*.iws
+*.iml
+*.ipr
+
+rebel.xml
+rebel-remote.xml
+
+# My configurations #
+target/
+.settings
+.classpath
+.project
+*.sublime-*
+
+/libs/
+/logs/
+
+fileNet-v*

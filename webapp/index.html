@@ -1,0 +1,72 @@
+<!doctype html>
+<html data-ng-app="FileManagerApp">
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>File Network</title>
+
+  <!-- 第三方依赖 -->
+  <link  href="filemanager/lib/bootswatch/paper/bootstrap.min.css" rel="stylesheet"/>
+  <script src="filemanager/lib/jquery/dist/jquery.min.js"></script>
+  <script src="filemanager/lib/angular/angular.min.js"></script>
+  <script src="filemanager/lib/angular-translate/dist/angular-translate.min.js"></script>
+  <script src="filemanager/lib/ng-file-upload/dist/ng-file-upload.min.js"></script>
+  <script src="filemanager/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- END 第三方依赖 -->
+
+  <!-- Uncomment if you need to use raw source code -->
+  <!-- Comment if you need to use raw source code -->
+
+  <link  href="filemanager/dist/angular-filemanager.min.css" rel="stylesheet">
+  <script src="filemanager/dist/angular-filemanager.min.js"></script>
+
+  <script type="text/javascript">
+      // 重写默认Config配置
+      angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
+          // 接口根路径
+          var apiRoot = '/api/fileManager';
+          var defaults = config.$get();
+          config.set({
+              appName: 'FileStorage',
+              listUrl: apiRoot + '/list/',
+              uploadUrl: apiRoot + '/upload/',
+              renameUrl: apiRoot + '/rename/',
+              copyUrl: apiRoot + '/copy/',
+              moveUrl: apiRoot + '/move/',
+              removeUrl: apiRoot + '/remove/',
+              editUrl: apiRoot + '/edit/',
+              getContentUrl: apiRoot + '/getContent/',
+              createFolderUrl: apiRoot + '/createFolder/',
+              downloadFileUrl: apiRoot + '/preview/',
+              downloadMultipleUrl: apiRoot + '/preview/',
+              compressUrl: apiRoot + '/compress/',
+              extractUrl: apiRoot + '/extract/',
+              permissionsUrl: apiRoot + '/changePermissions/',
+              documentViewUrl: '/office/',
+
+              pickCallback: function (item) {
+                  var msg = 'Picked %s "%s" for external use'
+                      .replace('%s', item.type)
+                      .replace('%s', item.fullPath());
+                  window.alert(msg);
+              },
+
+              allowedActions: angular.extend(defaults.allowedActions, {
+                  pickFiles: false,
+                  pickFolders: false,
+                  downloadMultiple: false
+              }),
+              // tplPath: 'src/templates'
+              tplPath: 'filemanager/src/templates'
+          });
+      }]);
+  </script>
+</head>
+
+<body class="ng-cloak">
+<angular-filemanager></angular-filemanager>
+
+<script>
+</script>
+</body>
+</html>
