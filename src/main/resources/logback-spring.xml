@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="true">
+
+    <springProperty scope="context" name="AppName" source="spring.application.name"/>
+    <springProperty scope="context" name="ProfilesActive" source="spring.profiles.active"/>
+    <property name="LogPattern"
+              value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) -| %-5level -| %c [%L] -| %msg%n"/>
+
+    <appender name="stdoutAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--<charset>UTF-8</charset>-->
+            <pattern>${LogPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BizAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${AppName}.biz.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.path 在application-[dev|pro].properties里配置 -->
+            <fileNamePattern>logs/${AppName}-%d{yyyyMMdd}-%i.biz.log.gz</fileNamePattern>
+            <!-- 日志最大的历史 180天 -->
+            <maxHistory>180</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LogPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BizErrorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${AppName}.biz.err.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>logs/${AppName}-%d{yyyyMMdd}-%i.biz.err.log.gz</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>180</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LogPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="outAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${AppName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.path 在application-[dev|pro].properties里配置 -->
+            <fileNamePattern>logs/${AppName}-%d{yyyyMMdd}-%i.log.gz</fileNamePattern>
+            <!-- 日志最大的历史 180天 -->
+            <maxHistory>180</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LogPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${AppName}.err.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>logs/${AppName}-%d{yyyyMMdd}-%i.err.log.gz</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>180</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LogPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <springProfile name="local">
+
+        <logger name="org.elasticsearch" level="TRACE">
+            <appender-ref ref="stdoutAppender"/>
+        </logger>
+
+        <logger name="com.lingyue" level="DEBUG">
+            <appender-ref ref="BizAppender"/>
+            <appender-ref ref="BizErrorAppender"/>
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="stdoutAppender"/>
+            <appender-ref ref="outAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+
+    </springProfile>
+
+    <springProfile name="dev,stg,train,4000">
+
+        <logger name="org.elasticsearch" level="TRACE">
+            <appender-ref ref="stdoutAppender"/>
+        </logger>
+
+        <logger name="com.lingyue" level="INFO">
+            <appender-ref ref="BizAppender"/>
+            <appender-ref ref="BizErrorAppender"/>
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="stdoutAppender"/>
+            <appender-ref ref="outAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+
+    </springProfile>
+
+    <springProfile name="prod">
+
+        <logger name="com.lingyue" level="INFO">
+            <appender-ref ref="BizAppender"/>
+            <appender-ref ref="BizErrorAppender"/>
+        </logger>
+
+        <root level="info">
+            <appender-ref ref="outAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+
+    </springProfile>
+
+</configuration>
