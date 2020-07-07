@@ -1,20 +1,19 @@
-﻿# description
+# description
 
 ## package setup
 
 0. new dist-dir fileNet-{currentDate}
-1. copy fileNet-example to new dist-dir
+1. copy fileNet-example to dist-dir
 2. build: mvn clean package
-3. copy target/jar && copy libs to dist-dir
-4. edit app/config/server.properties
+3. copy target/.jar && copy libs to dist-dir
+4. copy webapp to dist-dir
+5. edit dist-dir/app/config/server.properties
 compress finished
-
 
 ## directory name rule
 ```
 example: fileNet-20200202
 ```
-
 
 ## dist structure
 
@@ -32,6 +31,7 @@ example: fileNet-20200202
 ## open mode
 - Linux
 `
+chmod -R 777 bin/
 sh bin/startup.sh
 `
 - Windows
